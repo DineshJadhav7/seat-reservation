@@ -18,7 +18,7 @@ import java.util.UUID;
  * Gives every request a correlation id (X-Request-Id header, or a generated one), puts it in the
  * logging MDC so every log line for that request carries it, echoes it back, and logs one access line.
  */
-@Component
+@Component("seatReservationRequestContextFilter")
 public class RequestContextFilter extends OncePerRequestFilter {
 
     private static final Logger log = LoggerFactory.getLogger(RequestContextFilter.class);
