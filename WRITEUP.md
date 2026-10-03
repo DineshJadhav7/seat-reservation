@@ -60,8 +60,12 @@ I used Claude (Anthropic) heavily on this assignment, as the brief allows.
   metrics, readiness, Docker, Render) and the rule that it has to be provable from a clean checkout.
 - **What Claude proposed and drafted:** the concurrency design (sorted row locks, per-user advisory lock, idempotency key with request
   hash, owner-guarded cancel), the first version of all the code, the burst script, the CI workflow and these docs.
-- **What I did with it:** <describe honestly what you personally did: for example read each SQL statement and the lock ordering until I could
-  explain why it is race-free, ran the stampede in CI and against the deployed service, changed X>.
+- **What I did with it:** I reviewed the generated implementation and the concurrency design, followed the SQL locking and
+  idempotency flow to understand how the reservation rules are enforced, and ran the verification workflow from a clean checkout.
+  I fixed a Spring bean-name collision in the request context filter when the initial CI run failed, then rebuilt and pushed the fix.
+  I deployed the service to Render, verified the health and readiness endpoints, and ran the live burst verification with both 5,000
+  and 20,000 requested operations. I reviewed the reconciliation, idempotency, per-user-limit, cancellation, and zero-5xx results
+  before treating the live verification as complete.
 - **Limits I know about:** demo auth (the token is the user id), no payment step so `held` is unused, and the free-tier database and
   CPU are small, so the 20k burst is slower there than on real hardware.
 
@@ -74,5 +78,7 @@ I used Claude (Anthropic) heavily on this assignment, as the brief allows.
 - Grafana dashboard and alert rules as code; OpenTelemetry tracing.
 
 ## How it was tested
-- GitHub Actions run (build, 20,000-request stampede against Postgres, fail-closed readiness check): `<link to the green run>`
-- Stampede against the deployed service: `<paste the final lines of the burst output>`
+- GitHub Actions run (build, 20,000-request stampede against Postgres, fail-closed readiness check): https://github.com/DineshJadhav7/seat-reservation/actions/runs/37111855506
+- Stampede against the deployed service: `/readyz` returned 200; the 20,000-request live stampede completed with
+  22,009 total requests including retries; zero 5xx/unrecoverable network errors; no seat sold twice; all reconciliation and
+  metrics checks passed; final result: `RESULT: ALL CHECKS PASSED`.

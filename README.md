@@ -5,10 +5,10 @@ idempotent retries. Prometheus metrics, JSON logs with request ids, one-command 
 
 | | |
 |---|---|
-| **Live URL** | `<paste Render URL>` |
-| **Health / readiness** | `<URL>/healthz` · `<URL>/readyz` |
-| **Metrics (Prometheus)** | `<URL>/metrics` |
-| **CI proof (20k stampede)** | `<link to the green GitHub Actions run>` |
+| **Live URL** | `https://seat-reservation-qitt.onrender.com` |
+| **Health / readiness** | `https://seat-reservation-qitt.onrender.com/healthz` · `https://seat-reservation-qitt.onrender.com/readyz` |
+| **Metrics (Prometheus)** | `https://seat-reservation-qitt.onrender.com/metrics` |
+| **CI proof (20k stampede)** | `https://github.com/DineshJadhav7/seat-reservation/actions/runs/37111855506` |
 
 ## Run it (clean checkout)
 
