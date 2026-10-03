@@ -1,0 +1,12 @@
+<configuration>
+    <!-- one JSON object per line; MDC values (requestId and the per-event fields) become top-level JSON fields -->
+    <appender name="JSON" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+            <layout class="com.seatreservation.logging.JsonLayout"/>
+        </encoder>
+    </appender>
+    <logger name="com.zaxxer.hikari" level="WARN"/>
+    <root level="INFO">
+        <appender-ref ref="JSON"/>
+    </root>
+</configuration>
